@@ -9,9 +9,6 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.example.lab_week_10.viewmodels.TotalViewModel
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 class FirstFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,21 +32,16 @@ class FirstFragment : Fragment() {
             getString(R.string.text_total, total)
     }
 
-    private fun prepareViewModel(){
-        val viewModel =
-            ViewModelProvider(requireActivity()).get(TotalViewModel::class.java)
-        // Observe the LiveData object
-        viewModel.total.observe(viewLifecycleOwner, {
-        // Whenever the value of the LiveData object changes
-        // the updateText() is called, with the new value as the parameter
-            updateText(it)
-        })
+    private fun prepareViewModel() {
+        val viewModel = ViewModelProvider(requireActivity())
+            .get(TotalViewModel::class.java)
+
+        viewModel.total.observe(viewLifecycleOwner) { obj ->
+            updateText(obj.value)
+        }
     }
 
-
     companion object {
-        fun newInstance(param1: String, param2: String): FirstFragment {
-            return FirstFragment()
-        }
+        fun newInstance(param1: String, param2: String) = FirstFragment()
     }
 }
